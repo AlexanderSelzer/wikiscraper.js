@@ -1,0 +1,22 @@
+{
+  "name": "wikiscraper.js",
+  "version": "0.0.1",
+  "description": "Get data off Wikipedia",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "wikipedia",
+    "scraper",
+    "web"
+  ],
+  "author": "Alexander Selzer <aselzer3@gmail.com>",
+  "license": "MIT",
+
+  "dependencies" : {
+    "request" : "2.x",
+    "colors" : "0.6.x",
+    "optimist" : "0.6.x"
+  }
+}

@@ -1,0 +1,7 @@
+
+-s [JSON array of sites]  -- scrape all sites.
+-h                        -- display this site
+
+Example:
+
+node cli.js -s '["node.js", "JavaScript"]'
