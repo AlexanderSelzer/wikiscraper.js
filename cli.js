@@ -5,7 +5,12 @@ var WikiScraper = require("./index.js"),
 
 if (argv.s || argv.sites) {
   var sites = JSON.parse(argv.s || argv.sites);
+
   var wikiscraper = new WikiScraper(sites);
+
+  if (argv.lang)
+    wikiscraper.setLanguage(argv.lang);
+
   wikiscraper.scrape(function(err, results) {
     if (err) {
       console.error(err);
