@@ -6,7 +6,7 @@ Fast.
 
 
 ```bash
-./cli.js --sites '["Helium", "Hydrogen", "Oxygen", "Lithium"]'
+node cli.js --sites '["Helium", "Hydrogen", "Oxygen", "Lithium"]'
 ```
 
 # About

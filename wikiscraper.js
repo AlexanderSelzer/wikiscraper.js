@@ -32,12 +32,16 @@ WikiScraper.prototype.scrape = function(cb) {
           site.infobox.fields = [];
           site.infobox.caption = $(".infobox caption.summary").html();
           var infoboxFields = $("table.infobox tr");
+          // Go through all rows.
           infoboxFields.each(function(i, field) {
             var field = {};
             field.title = $(this).children("th").text();
             field.content = $(this).children("td").text();
 
-            site.infobox.fields.push(field);
+            // Only push to array if both title and content are set - excludes images, etc.
+            if (field.title && field.content) {
+              site.infobox.fields.push(field);
+            }
           });
         }
         cb(undefined, site);
