@@ -20,6 +20,17 @@ I made it for use with [Mendeleev.io](https://github.com/zpiman/Mendeleev.io)).
 
 # Usage in JavaScript
 
+WikiScraper should initialized with a array of pages on Wikipedia.
+`new WikiScraper(["JavaScript"])` or `WikiScraper.selectSites(["JavaScript"])`
+This will translate to the URL `en.wikipedia.org/wiki/JavaScript`
+
+The language of the page can be changed.
+`WikiScraper.setLanguage("de")` will scrape `de.wikipedia.org/wiki/JavaScript`.
+
+For every request, the callback will be called.
+This allows faster processing and is more secure than returning
+a big array.
+
 ```javascript
 var WikiScraper = require("wikiscraper.js");
 
@@ -30,9 +41,14 @@ var wikiscraper = new WikiScraper([
   "Lithium"
 ]);
 
-wikiscraper.scrape(function(err, results) {
-  results.forEach(console.dir);
+var results = [];
+
+wikiscraper.scrape(function(err, result) {
+  if (!err)
+    results.push(result);
 });
+
+console.dir(results);
 ```
 
 # Example - Scraping Wikipedia fields to a RethinkDB database

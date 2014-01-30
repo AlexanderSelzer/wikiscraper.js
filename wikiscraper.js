@@ -29,18 +29,17 @@ WikiScraper.prototype.scrape = function(cb) {
         site["title"] = $("title").html();
         if ($(".infobox")) {
           site.infobox = {};
-          site.infobox.fields = [];
+          site.infobox.fields = {};
           site.infobox.caption = $(".infobox caption.summary").html();
           var infoboxFields = $("table.infobox tr");
           // Go through all rows.
           infoboxFields.each(function(i, field) {
-            var field = {};
-            field.title = $(this).children("th").text();
-            field.content = $(this).children("td").text();
+            var title = $(this).children("th").text();
+            var content = $(this).children("td").text();
 
             // Only push to array if both title and content are set - excludes images, etc.
-            if (field.title && field.content) {
-              site.infobox.fields.push(field);
+            if (title && content) {
+              site.infobox.fields[title] = content;
             }
           });
         }
