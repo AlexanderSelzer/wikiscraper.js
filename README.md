@@ -34,3 +34,31 @@ wikiscraper.scrape(function(err, results) {
   results.forEach(console.dir);
 });
 ```
+
+# Example - Scraping Wikipedia fields to a RethinkDB database
+
+scrape-to-db.js
+
+```javascript
+var r = require("rethinkdb"),
+    WikiScraper = require("./index.js"),
+    fs = require("fs");
+
+r.connect({
+  host: "localhost",
+  db: "wikipedia"
+}, function(err, conn) {
+  fs.readFile("elements.json", function(err, data) {
+    var json = data.toString().replace(/'/g, '"');
+    var wikiscraper = new WikiScraper(JSON.parse(json));
+
+    wikiscraper.scrape(function(err, site) {
+      if (err) throw err;
+      console.log("Writing site", site.title, "to DB.");
+      r.table("sites").insert(site).run(conn, function(err) {
+        if (err) throw err;
+      });
+    });
+  });
+});
+```
