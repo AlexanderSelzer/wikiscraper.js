@@ -11,12 +11,10 @@ node cli.js --sites '["Helium", "Hydrogen", "Oxygen", "Lithium"]'
 
 # About
 
-The DOM scraper does not yet work well in Wikipedia's
-quirky layout.
-This tool is for now aimed at the more technical pages, which
-feature a little "infobox".
+This tool will get the contents of Wikipedia's infobox (.infobox class),
+as a key-value JavaScript object.
 
-I made it for use with [Mendeleev.io](https://github.com/zpiman/Mendeleev.io)).
+It was made for use with [Mendeleev.io](https://github.com/zpiman/Mendeleev.io)).
 
 # Usage in JavaScript
 
@@ -53,7 +51,7 @@ console.dir(results);
 
 # Example - Scraping Wikipedia fields to a RethinkDB database
 
-scrape-to-db.js
+`scrape-to-db.js` (uses `elements.json`)
 
 ```javascript
 var r = require("rethinkdb"),
@@ -65,7 +63,6 @@ r.connect({
   db: "wikipedia"
 }, function(err, conn) {
   fs.readFile("elements.json", function(err, data) {
-    var json = data.toString().replace(/'/g, '"');
     var wikiscraper = new WikiScraper(JSON.parse(json));
 
     wikiscraper.scrape(function(err, site) {
