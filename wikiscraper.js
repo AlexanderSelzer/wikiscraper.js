@@ -1,30 +1,39 @@
-var request = require("request"),
+var EventEmitter = require("events").EventEmitter,
+    util = require("util"),
+    request = require("request"),
     cheerio = require("cheerio"),
     
     infobox = require("./lib/infobox"),
     geography = require("./lib/geography");
 
 function WikiScraper(sites) {
+  EventEmitter.call(this);
   this.selectSites(sites);
   this.language = "en";
-}
+};
+
+util.inherits(WikiScraper, EventEmitter);
 
 WikiScraper.prototype.selectSites = function(sites) {
   this.sites = sites
-}
+};
 
 WikiScraper.prototype.setLanguage = function(lang) {
   this.language = lang;
-}
+};
 
 WikiScraper.prototype.scrape = function(cb) {
   var lang = this.language;
-  var scrapedSites = {};
+  var self = this;
+  var sitesLength = this.sites.length;
+  var sitesCrawled = 0;
+  this.scrapedSites = [];
   this.sites.forEach(function(site) {
     var wikipediaSite = "http://" + lang + ".wikipedia.org/wiki/" + site;
     request(wikipediaSite, function(err, res, body) {
       if (err) {
-        cb(err, undefined);
+        self.emit("err", err);
+        if (cb) cb(err, undefined);
       }
       else {
         var site = {};
@@ -36,11 +45,19 @@ WikiScraper.prototype.scrape = function(cb) {
         else if ($(".infobox")) {
           site = infobox($); 
         }
-        cb(undefined, site);
+        self.scrapedSites.push(site);
+        self.emit("siteloaded", site, sitesCrawled);
+        if (cb) cb(undefined, site);
       }
+    
+    // Non-threaded FTW!
+    sitesCrawled++;
+    if (sitesCrawled === sitesLength) {
+      self.emit("sitesloaded", self.scrapedSites); 
+    }
     });
   });
-}
+};
 
 module.exports = WikiScraper;
 

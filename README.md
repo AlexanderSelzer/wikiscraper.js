@@ -39,39 +39,37 @@ var wikiscraper = new WikiScraper([
   "Lithium"
 ]);
 
-var results = [];
+/* Callback Style */
 
-wikiscraper.scrape(function(err, result) {
-  if (!err)
-    results.push(result);
+var elements = [];
+
+wikiscraper.scrape(function(err, element) {
+  if (!err) {
+    console.log(element);
+    elements.push(element);
+  }
+  else {
+    console.error(err);
+  }
 });
 
-console.dir(results);
-```
+wikiscraper.on("sitesloaded", function() {
+  console.dir(elements);
+});
 
-# Example - Scraping Wikipedia fields to a RethinkDB database
+/* Event style */
 
-`scrape-to-db.js` (uses `elements.json`)
+wikiscraper.scrape();
 
-```javascript
-var r = require("rethinkdb"),
-    WikiScraper = require("./index.js"),
-    fs = require("fs");
+wikiscraper.on("siteloaded", function(site, numberLoaded) {
+  console.log("Loaded site", numberLoaded, ":", site);
+});
 
-r.connect({
-  host: "localhost",
-  db: "wikipedia"
-}, function(err, conn) {
-  fs.readFile("elements.json", function(err, data) {
-    var wikiscraper = new WikiScraper(JSON.parse(json));
+wikiscraper.on("sitesloaded", function(sites) {
+  console.dir(sites);
+});
 
-    wikiscraper.scrape(function(err, site) {
-      if (err) throw err;
-      console.log("Writing site", site.title, "to DB.");
-      r.table("sites").insert(site).run(conn, function(err) {
-        if (err) throw err;
-      });
-    });
-  });
+wikiscraper.on("err", function(error) {
+  console.error("Oh no!", error);
 });
 ```
