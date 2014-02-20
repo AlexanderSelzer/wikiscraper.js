@@ -38,13 +38,14 @@ WikiScraper.prototype.scrape = function(cb) {
       else {
         var site = {};
         var $ = cheerio.load(body);
-        site["title"] = $("title").html();
         if ($(".infobox").hasClass("geography")) {
           site = geography($);
         }
         else if ($(".infobox")) {
           site = infobox($); 
         }
+        site.title = $("head title").text();
+        site.name = /([\w\s]+)\s\-\s/.exec(site.title)[1];
         self.scrapedSites.push(site);
         self.emit("siteloaded", site, sitesCrawled);
         if (cb) cb(undefined, site);
