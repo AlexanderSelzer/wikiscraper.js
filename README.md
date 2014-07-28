@@ -4,25 +4,53 @@ WikiScraper.js
 Get data off Wikipedia.
 Fast.
 
-This is both a library, and a small command line utility.
+Wikiscraper is both a library, and a command line utility.
 
 ```bash
-$wikiscraper --sites '["Helium", "Hydrogen", "Oxygen", "Lithium"]'
+$ wikiscraper Helium Hydrogen Oxygen Lithium
+## or
+$ echo '["Helium", "Hydrogen", "Oxygen", "Lithium"]' | wikiscraper
+```
+
+A JSON array of Wikipedia sites will be returned:
+
+```bash
+$ wikiscraper markdown
+[
+  {
+    "infobox": {
+      "fields": {
+        "Filename extension": ".md, .markdown",
+        "Uniform Type Identifier (UTI)": "net.daringfireball.markdown",
+        "Developed by": "John Gruber",
+        "Initial release": "March 25, 2004; 10 years ago (2004-03-25)",
+        "Latest release": "1.0.1  / December 17, 2004; 9 years ago (2004-12-17)",
+        "Type of format": "Markup language",
+        "Open format?": "yes",
+        "Website": "daringfireball.net/projects/markdown/"
+      },
+      "summary": ""
+    },
+    "title": "Markdown - Wikipedia, the free encyclopedia",
+    "name": "Markdown"
+  }
+]
 ```
 
 # Install
 
 ```bash
-$npm install wikiscraper
+$ npm install -g wikiscraper
 ```
 
 # About
 
 This tool will get the contents of Wikipedia's infobox (.infobox class),
-as a key-value JavaScript object.
+as a JSON object.
 
-It was made out of the neccessity to scrape Chemical element data
-for [Mendeleev.io](https://github.com/zpiman/Mendeleev.io)).
+We needed to scrape Wikipedia's data on
+chemical elements for [Mendeleev.io](https://github.com/zpiman/Mendeleev.io)),
+so this was made.
 
 # Usage in JavaScript
 

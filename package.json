@@ -1,26 +1,25 @@
 {
   "name": "wikiscraper",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Get data off Wikipedia",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "wikiscraper": "./cli.js"
+    "wikiscraper": "./bin/wikiscraper"
   },
   "keywords": [
     "wikipedia",
     "scraper",
-    "web"
+    "scraping"
   ],
   "author": "Alexander Selzer <aselzer3@gmail.com>",
   "license": "MIT",
-
-  "dependencies" : {
-    "request" : "2.x",
-    "colors" : "0.6.x",
-    "optimist" : "0.6.x",
-    "cheerio" : "0.13.x"
+  "dependencies": {
+    "request": "2.x",
+    "colors": "0.6.x",
+    "cheerio": "0.13.x",
+    "minimist": "^0.2.0"
   }
 }

@@ -2,7 +2,7 @@ var EventEmitter = require("events").EventEmitter,
     util = require("util"),
     request = require("request"),
     cheerio = require("cheerio"),
-    
+
     infobox = require("./lib/infobox"),
     geography = require("./lib/geography");
 
@@ -42,23 +42,24 @@ WikiScraper.prototype.scrape = function(cb) {
           site = geography($);
         }
         else if ($(".infobox")) {
-          site = infobox($); 
+          site = infobox($);
         }
         site.title = $("head title").text();
-        site.name = /([\w\s]+)\s\-\s/.exec(site.title)[1];
+        var nameMatch = /([\w\s]+)\s\-\s/.exec(site.title);
+        if (nameMatch) {
+          site.name = nameMatch[1];
+        }
         self.scrapedSites.push(site);
         self.emit("siteloaded", site, sitesCrawled);
         if (cb) cb(undefined, site);
       }
-    
-    // Non-threaded FTW!
+
     sitesCrawled++;
     if (sitesCrawled === sitesLength) {
-      self.emit("sitesloaded", self.scrapedSites); 
+      self.emit("sitesloaded", self.scrapedSites);
     }
     });
   });
 };
 
 module.exports = WikiScraper;
-

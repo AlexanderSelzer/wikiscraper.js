@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+
+var WikiScraper = require("../index.js"),
+    fs          = require("fs");
+
+var argv = require("minimist")(process.argv.slice(2));
+
+var sites = argv._;
+
+if (sites === null || sites.length < 1) {
+  var sitesJson = "";
+  process.stdin.on("data", function(data) {
+    sitesJson += data.toString();
+  });
+
+  process.stdin.on("end", function() {
+    if (sitesJson.length > 0) {
+      init(JSON.parse(sitesJson));
+    }
+    else {
+      fs.createReadStream(__dirname + "../help.txt")
+      .pipe(process.stdout);
+      process.exit(1);
+    }
+  });
+}
+else {
+  init(sites);
+}
+
+function init(sites) {
+  var wikiscraper = new WikiScraper(sites);
+
+  if (argv.lang) {
+    wikiscraper.setLanguage(argv.lang);
+  }
+
+  wikiscraper.scrape();
+
+  /*
+  wikiscraper.on("siteloaded", function(site, number) {
+    console.log("Scraped site", number);
+  });
+  */
+
+  wikiscraper.on("sitesloaded", function(sites) {
+    console.log(JSON.stringify(sites, null, 2));
+  });
+
+  wikiscraper.on("err", function(error) {
+    console.log(error);
+    process.exit(1);
+  });
+}

@@ -1,6 +1,5 @@
 
 -h                        -- show help
--s [JSON array of sites]  -- scrape all sites.
 --lang [en,de,etc.]       -- set language
 
 Example:
