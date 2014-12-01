@@ -17,9 +17,9 @@
   "author": "Alexander Selzer <aselzer3@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "request": "2.x",
-    "colors": "0.6.x",
-    "cheerio": "0.13.x",
-    "minimist": "^0.2.0"
+    "request": "^2.0.0",
+    "colors": "^1.0.0",
+    "cheerio": "~0.18.0",
+    "minimist": "^1.2.0"
   }
 }
