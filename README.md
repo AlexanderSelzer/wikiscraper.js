@@ -1,5 +1,6 @@
 WikiScraper.js
 ========
+[![Dependency Status](https://david-dm.org/AlexanderSelzer/wikiscraper.js.svg?style=flat)](https://david-dm.org/AlexanderSelzer/wikiscraper.js)
 
 Get data off Wikipedia.
 Fast.
